@@ -1,4 +1,4 @@
-# CRM Frontend for Sports Management App
+# CRM Frontend for AthSpot
 
 This repository contains the frontend for a CRM system designed to manage sports venues, bookings, teams, user profiles, and more. The application allows users to interact with various features of the platform, such as booking sports venues, managing teams, and viewing user profiles.
 
