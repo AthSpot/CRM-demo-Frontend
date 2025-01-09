@@ -1,0 +1,22 @@
+{
+  "user_profiles": [
+    {
+      "id": "1",
+      "user_id": "1",
+      "bio": "Passionate about sports and fitness",
+      "skill_level": "intermediate",
+      "preferred_sports": ["basketball", "running"],
+      "location": {
+        "latitude": 52.237049,
+        "longitude": 21.017532
+      },
+      "availability": {
+        "monday": ["18:00-20:00"],
+        "wednesday": ["18:00-20:00"],
+        "friday": ["18:00-20:00"]
+      },
+      "rating": 4.5,
+      "updated_at": "2024-03-19T00:00:00Z"
+    }
+  ]
+}

@@ -1,46 +1,125 @@
-# Getting Started with Create React App
+# CRM Frontend for Sports Management App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repository contains the frontend for a CRM system designed to manage sports venues, bookings, teams, user profiles, and more. The application allows users to interact with various features of the platform, such as booking sports venues, managing teams, and viewing user profiles.
 
-## Available Scripts
+## Features
+- User registration and login
+- View and manage user profiles
+- Browse available sports venues and their facilities
+- Make and manage bookings for sports facilities
+- Create and manage teams
+- View and upload photos related to venues and users
+- Submit and view reviews for venues
+- Handle payments for bookings
+- Track user stats, including achievements and rank
 
-In the project directory, you can run:
+## Data Source
 
-### `npm start`
+For development purposes, the frontend fetches data from static JSON files located in the `public/data` folder. Below is a sample of the data structures used in the app:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Users Table
+```json
+{
+  "users": {
+    "id": "uuid",
+    "email": "string",
+    "password_hash": "string",
+    "first_name": "string",
+    "last_name": "string",
+    "photo_url": "string",
+    "birth_date": "date",
+    "created_at": "timestamp",
+    "last_login": "timestamp",
+    "is_active": "boolean"
+  }
+}
+```
+### User Profiles Table
+```json
+{
+  "user_profiles": {
+    "id": "uuid",
+    "user_id": "uuid (ref: users.id)",
+    "bio": "string",
+    "skill_level": "enum (beginner, intermediate, advanced)",
+    "preferred_sports": "jsonb array",
+    "location": "jsonb (latitude, longitude)",
+    "availability": "jsonb (weekday schedule)",
+    "rating": "decimal",
+    "updated_at": "timestamp"
+  }
+}
+```
+### Sports Venues Table
+```json
+{
+  "venues": {
+    "id": "uuid",
+    "name": "string",
+    "description": "string",
+    "address": "string",
+    "location": "jsonb (latitude, longitude)",
+    "contact_phone": "string",
+    "email": "string",
+    "opening_hours": "jsonb (weekday schedule)",
+    "features": "jsonb array",
+    "created_at": "timestamp",
+    "updated_at": "timestamp",
+    "is_active": "boolean"
+  }
+}
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Venue Facilities Table
 
-### `npm test`
+```json
+{
+  "venue_facilities": {
+    "id": "uuid",
+    "venue_id": "uuid (ref: venues.id)",
+    "sport_type": "string",
+    "capacity": "integer",
+    "hourly_rate": "decimal",
+    "currency": "string",
+    "amenities": "jsonb array",
+    "photos": "jsonb array (urls)"
+  }
+}
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Bookings Table
+```json
+{
+  "bookings": {
+    "id": "uuid",
+    "venue_id": "uuid (ref: venues.id)",
+    "facility_id": "uuid (ref: venue_facilities.id)",
+    "user_id": "uuid (ref: users.id)",
+    "start_time": "timestamp",
+    "end_time": "timestamp",
+    "status": "enum (pending, confirmed, cancelled)",
+    "total_amount": "decimal",
+    "created_at": "timestamp",
+    "updated_at": "timestamp"
+  }
+}
+```
+## Setup
 
-### `npm run build`
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/crm-frontend.git
+   cd crm-frontend
+   ```
+2. Install dependencies:
+    ```bash
+    npm install
+    ```
+3. Start the development server:
+    ```bash
+    npm start
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Folder Structure
+- public/data: Contains static JSON data files.
+- src: Contains the React components, pages, and logic for handling the app's features.
