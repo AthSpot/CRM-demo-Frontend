@@ -24,7 +24,9 @@ const BookingConfirmation = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
-  const bookingDetails = location.state as BookingDetails;
+  
+  // Get booking details from location state with type safety
+  const bookingDetails = location.state as BookingDetails | undefined;
 
   const { data: userProfiles } = useQuery({
     queryKey: ["userProfiles"],
@@ -47,6 +49,7 @@ const BookingConfirmation = () => {
     }, 1500);
   };
 
+  // If no booking details are found, show the error state
   if (!bookingDetails) {
     return (
       <div className="min-h-[calc(100vh-112px)] mt-16 p-4 flex items-center justify-center">
@@ -67,7 +70,8 @@ const BookingConfirmation = () => {
     );
   }
 
-  const totalPrice = parseFloat(bookingDetails.price.replace(/[^0-9.]/g, ''));
+  // Calculate prices with proper type checking
+  const totalPrice = bookingDetails.price ? parseFloat(bookingDetails.price.replace(/[^0-9.]/g, '')) : 0;
   const serviceFee = totalPrice * 0.1; // 10% service fee
   const finalTotal = totalPrice + serviceFee;
 
@@ -150,7 +154,7 @@ const BookingConfirmation = () => {
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span>Booking fee</span>
-                  <span>{bookingDetails.price}</span>
+                  <span>${totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm text-muted-foreground">
                   <span>Service fee</span>
