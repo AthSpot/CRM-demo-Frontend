@@ -1,176 +1,208 @@
-import { useEffect, useRef } from "react";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { motion } from "framer-motion";
-import { ArrowDown, Phone, MapPin, Calendar, Users, Shield } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Badge } from "./ui/badge";
+import { Calendar, MapPin, Users, Star, Clock, Activity } from "lucide-react";
+import { loadUserProfiles } from "@/utils/data";
 import { Button } from "./ui/button";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!mapContainer.current) return;
-
-    mapboxgl.accessToken = "YOUR_MAPBOX_TOKEN";
-    
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/light-v11",
-      center: [0, 0],
-      zoom: 2,
-    });
-
-    return () => {
-      map.current?.remove();
-    };
+    const authStatus = localStorage.getItem("isAuthenticated") === "true";
+    setIsAuthenticated(authStatus);
   }, []);
 
-  const features = [
-    {
-      icon: MapPin,
-      title: "Find Sports Venues",
-      description: "Discover and book sports facilities near you"
-    },
-    {
-      icon: Calendar,
-      title: "Easy Booking",
-      description: "Schedule your games with just a few clicks"
-    },
-    {
-      icon: Users,
-      title: "Connect with Athletes",
-      description: "Join a community of sports enthusiasts"
-    },
-    {
-      icon: Shield,
-      title: "Secure Payments",
-      description: "Safe and easy payment processing"
-    }
-  ];
+  const { data: userProfiles } = useQuery({
+    queryKey: ["userProfiles"],
+    queryFn: loadUserProfiles,
+    enabled: isAuthenticated,
+  });
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background pt-16 pb-20 px-4">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl font-bold">
+                Welcome to AthSpot
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-lg text-muted-foreground">
+                Find and book sports facilities, connect with athletes, and manage your sports activities all in one place.
+              </p>
+              <div className="flex justify-center gap-4">
+                <Button onClick={() => navigate("/auth?mode=login")}>
+                  Log In
+                </Button>
+                <Button variant="outline" onClick={() => navigate("/auth?mode=signup")}>
+                  Sign Up
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <MapPin className="h-5 w-5" />
+                Featured Venues
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                  >
+                    <div className="p-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="font-semibold">Sports Center {i}</h3>
+                        <div className="flex items-center gap-1">
+                          <Star className="h-4 w-4 fill-current text-yellow-400" />
+                          <span>4.{i}</span>
+                        </div>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Multiple sports available
+                      </p>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Users className="h-4 w-4" />
+                        <span>20+ active users</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden">
-      {/* Map Background */}
-      <div className="fixed inset-0 z-0" ref={mapContainer} />
-      
-      {/* Content */}
-      <div className="relative z-10">
-        {/* Hero Section */}
-        <section className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8">
-          <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -100 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="relative"
-            >
-              <img
-                src="/placeholder.svg"
-                alt="Person holding phone"
-                className="w-full max-w-md mx-auto rounded-2xl shadow-2xl"
-              />
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-center lg:text-left"
-            >
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-primary mb-6">
-                Find Your Perfect Sport Venue
-              </h1>
-              <p className="text-lg text-gray-600 mb-8">
-                Book sports facilities, connect with athletes, and play your favorite sports.
-              </p>
-              <Link to="/explore">
-                <Button size="lg" className="animate-bounce">
-                  Get Started
-                </Button>
-              </Link>
-            </motion.div>
-          </div>
-          
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1 }}
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          >
-            <ArrowDown className="w-8 h-8 text-primary animate-bounce" />
-          </motion.div>
-        </section>
-
-        {/* Features Section */}
-        <section className="min-h-screen py-20 bg-white/90">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-4">
-                Why Choose AthSpot?
-              </h2>
-              <p className="text-lg text-gray-600">
-                Everything you need to enjoy sports in one place
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
-                >
-                  <feature.icon className="w-12 h-12 text-primary mb-4 mx-auto" />
-                  <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                  <p className="text-gray-600">{feature.description}</p>
-                </motion.div>
+    <div className="min-h-screen bg-background pt-16 pb-20 px-4">
+      <div className="max-w-7xl mx-auto space-y-6">
+        {/* Recent Activity */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Activity className="h-5 w-5" />
+              Recent Activity
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {userProfiles?.map((profile) => (
+                <div key={profile.id} className="flex items-start gap-4">
+                  <Avatar>
+                    <AvatarImage src={`https://avatar.vercel.sh/${profile.id}`} />
+                    <AvatarFallback>U</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="font-medium">
+                      User {profile.id} played {profile.preferred_sports[0]}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {new Date(profile.updated_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
               ))}
             </div>
-          </div>
-        </section>
-      </div>
+          </CardContent>
+        </Card>
 
-      {/* Footer */}
-      <footer className="relative z-10 bg-primary text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4">About AthSpot</h3>
-              <p className="text-gray-300">
-                Your ultimate platform for finding and booking sports venues.
-              </p>
+        {/* Upcoming Events */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Calendar className="h-5 w-5" />
+              Upcoming Events
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {userProfiles?.map((profile) => (
+                <div
+                  key={profile.id}
+                  className="border rounded-lg p-4 hover:shadow-md transition-shadow"
+                >
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="font-semibold">
+                        {profile.preferred_sports[0]} Session
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        With {Object.keys(profile.availability).length} others
+                      </p>
+                    </div>
+                    <Badge>{profile.skill_level}</Badge>
+                  </div>
+                  <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+                    <Clock className="h-4 w-4" />
+                    <span>
+                      {Object.entries(profile.availability)[0]?.[1]?.[0]}
+                    </span>
+                    <MapPin className="h-4 w-4 ml-2" />
+                    <span>2.5 km away</span>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div>
-              <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li><Link to="/explore" className="text-gray-300 hover:text-white transition-colors">Explore</Link></li>
-                <li><Link to="/analytics" className="text-gray-300 hover:text-white transition-colors">Analytics</Link></li>
-              </ul>
+          </CardContent>
+        </Card>
+
+        {/* Recommended Venues */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <MapPin className="h-5 w-5" />
+              Recommended Venues
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                  <img
+                    src={`https://source.unsplash.com/random/400x300/?sport,${i}`}
+                    alt="Venue"
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="font-semibold">Sports Center {i}</h3>
+                      <div className="flex items-center gap-1">
+                        <Star className="h-4 w-4 fill-current text-yellow-400" />
+                        <span>4.{i}</span>
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-2">
+                      Multiple sports available
+                    </p>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Users className="h-4 w-4" />
+                      <span>20+ active users</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div>
-              <h3 className="text-xl font-bold mb-4">Contact</h3>
-              <div className="flex items-center space-x-2 text-gray-300">
-                <Phone className="w-5 h-5" />
-                <span>+1 234 567 890</span>
-              </div>
-            </div>
-          </div>
-          <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-300">
-            <p>&copy; {new Date().getFullYear()} AthSpot. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

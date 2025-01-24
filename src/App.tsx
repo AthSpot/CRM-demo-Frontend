@@ -17,6 +17,7 @@ import Settings from "./components/Settings";
 import BookingConfirmation from "./components/BookingConfirmation";
 import UserProfile from "./components/UserProfile";
 import LandingPage from "./components/LandingPage";
+import AddVenueInfo from "./components/AddVenueInfo";
 import PrivateRoute from "./components/PrivateRoute";
 
 const queryClient = new QueryClient();
@@ -39,6 +40,9 @@ const App = () => (
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/analytics" element={<Analytics />} />
+              <Route path="/add-venue" element={<AddVenueInfo />} />
+              <Route path="/achievements" element={<div className="mt-16">Achievements (Coming Soon)</div>} />
+              <Route path="/history" element={<div className="mt-16">History (Coming Soon)</div>} />
               <Route 
                 path="/explore" 
                 element={
@@ -73,18 +77,6 @@ const App = () => (
               />
               <Route path="/booking-confirmation" element={<BookingConfirmation />} />
               <Route path="/user/:id" element={<UserProfileWrapper />} />
-              <Route
-                path="/rewards"
-                element={<div className="mt-16">Rewards Page (Coming Soon)</div>}
-              />
-              <Route
-                path="/offline"
-                element={<div className="mt-16">Offline Mode (Coming Soon)</div>}
-              />
-              <Route
-                path="/training"
-                element={<div className="mt-16">Training Plans (Coming Soon)</div>}
-              />
               <Route path="/auth" element={<Auth />} />
               <Route path="/wallet" element={<Wallet />} />
               <Route path="/settings" element={<Settings />} />

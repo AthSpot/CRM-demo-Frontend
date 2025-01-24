@@ -20,7 +20,7 @@ const Auth = () => {
   // Check if user is already authenticated
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
   if (isAuthenticated) {
-    return <Navigate to="/explore" replace />;
+    return <Navigate to="/" replace />;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,7 +37,7 @@ const Auth = () => {
           description: "You have successfully logged in!",
         });
         localStorage.setItem("isAuthenticated", "true");
-        navigate("/explore");
+        navigate("/"); // Changed from /explore to / for main page redirect
       } else {
         toast({
           title: "Error",
