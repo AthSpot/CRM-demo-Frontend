@@ -1,4 +1,4 @@
-# CRM Frontend for Sports Management App
+![image](https://github.com/user-attachments/assets/0737fb4f-c55f-4741-92e6-3d3b573638bd)# CRM Frontend for Sports Management App
 This repository contains the frontend for a CRM system designed to manage sports venues, bookings, teams, user profiles, and more. The application allows users to interact with various features of the platform, such as booking sports venues, managing teams, and viewing user profiles.
 ## Features
 - User registration and login
@@ -10,6 +10,18 @@ This repository contains the frontend for a CRM system designed to manage sports
 - Submit and view reviews for venues
 - Handle payments for bookings
 - Track user stats, including achievements and rank
+
+
+![image](https://github.com/user-attachments/assets/d3d75180-b170-40c7-88b7-5edf665c9cb8)
+
+
+![image](https://github.com/user-attachments/assets/b4b31ff9-5524-4a14-815b-ed94e9b9a985)
+
+![image](https://github.com/user-attachments/assets/d64e39c4-5c43-4c02-bcc9-b01cf308c522)
+
+
+![image](https://github.com/user-attachments/assets/3b4a561e-49e9-4fd4-a3a9-4de74c49f588)
+
 ## Data Source
 For development purposes, the frontend fetches data from static JSON files located in the `public/data` folder. Below is a sample of the data structures used in the app:
 ### Users Table
