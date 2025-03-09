@@ -1,127 +1,69 @@
-# CRM Frontend for Sports Management App
-This repository contains the frontend for a CRM system designed to manage sports venues, bookings, teams, user profiles, and more. The application allows users to interact with various features of the platform, such as booking sports venues, managing teams, and viewing user profiles.
-## Features
-- User registration and login
-- View and manage user profiles
-- Browse available sports venues and their facilities
-- Make and manage bookings for sports facilities
-- Create and manage teams
-- View and upload photos related to venues and users
-- Submit and view reviews for venues
-- Handle payments for bookings
-- Track user stats, including achievements and rank
+# Welcome to your Lovable project
 
+## Project info
 
-![image](https://github.com/user-attachments/assets/d3d75180-b170-40c7-88b7-5edf665c9cb8)
+**URL**: https://lovable.dev/projects/a9dab480-a5aa-4c82-b422-74f8444b9deb
 
+## How can I edit this code?
 
-![image](https://github.com/user-attachments/assets/b4b31ff9-5524-4a14-815b-ed94e9b9a985)
+There are several ways of editing your application.
 
-![image](https://github.com/user-attachments/assets/d64e39c4-5c43-4c02-bcc9-b01cf308c522)
+**Use Lovable**
 
+Simply visit the [Lovable Project](https://lovable.dev/projects/a9dab480-a5aa-4c82-b422-74f8444b9deb) and start prompting.
 
-![image](https://github.com/user-attachments/assets/3b4a561e-49e9-4fd4-a3a9-4de74c49f588)
+Changes made via Lovable will be committed automatically to this repo.
 
-## Data Source
-For development purposes, the frontend fetches data from static JSON files located in the `public/data` folder. Below is a sample of the data structures used in the app:
-### Users Table
-```json
-{
-  "users": {
-    "id": "uuid",
-    "email": "string",
-    "password_hash": "string",
-    "first_name": "string",
-    "last_name": "string",
-    "photo_url": "string",
-    "birth_date": "date",
-    "created_at": "timestamp",
-    "last_login": "timestamp",
-    "is_active": "boolean"
-  }
-}
+**Use your preferred IDE**
+
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+Follow these steps:
+
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
+
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
+
+# Step 3: Install the necessary dependencies.
+npm i
+
+# Step 4: Start the development server with auto-reloading and an instant preview.
+npm run dev
 ```
-### User Profiles Table
-```json
-{
-  "user_profiles": {
-    "id": "uuid",
-    "user_id": "uuid (ref: users.id)",
-    "bio": "string",
-    "skill_level": "enum (beginner, intermediate, advanced)",
-    "preferred_sports": "jsonb array",
-    "location": "jsonb (latitude, longitude)",
-    "availability": "jsonb (weekday schedule)",
-    "rating": "decimal",
-    "updated_at": "timestamp"
-  }
-}
-```
-### Sports Venues Table
-```json
-{
-  "venues": {
-    "id": "uuid",
-    "name": "string",
-    "description": "string",
-    "address": "string",
-    "location": "jsonb (latitude, longitude)",
-    "contact_phone": "string",
-    "email": "string",
-    "opening_hours": "jsonb (weekday schedule)",
-    "features": "jsonb array",
-    "created_at": "timestamp",
-    "updated_at": "timestamp",
-    "is_active": "boolean"
-  }
-}
-```
-### Venue Facilities Table
-```json
-{
-  "venue_facilities": {
-    "id": "uuid",
-    "venue_id": "uuid (ref: venues.id)",
-    "sport_type": "string",
-    "capacity": "integer",
-    "hourly_rate": "decimal",
-    "currency": "string",
-    "amenities": "jsonb array",
-    "photos": "jsonb array (urls)"
-  }
-}
-```
-### Bookings Table
-```json
-{
-  "bookings": {
-    "id": "uuid",
-    "venue_id": "uuid (ref: venues.id)",
-    "facility_id": "uuid (ref: venue_facilities.id)",
-    "user_id": "uuid (ref: users.id)",
-    "start_time": "timestamp",
-    "end_time": "timestamp",
-    "status": "enum (pending, confirmed, cancelled)",
-    "total_amount": "decimal",
-    "created_at": "timestamp",
-    "updated_at": "timestamp"
-  }
-}
-```
-## Setup
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/crm-frontend.git
-   cd crm-frontend
-   ```
-2. Install dependencies:
-    ```bash
-    npm install
-    ```
-3. Start the development server:
-    ```bash
-    npm start
-   ```
-## Folder Structure
-- public/data: Contains static JSON data files.
-- src: Contains the React components, pages, and logic for handling the app's features.
+
+**Edit a file directly in GitHub**
+
+- Navigate to the desired file(s).
+- Click the "Edit" button (pencil icon) at the top right of the file view.
+- Make your changes and commit the changes.
+
+**Use GitHub Codespaces**
+
+- Navigate to the main page of your repository.
+- Click on the "Code" button (green button) near the top right.
+- Select the "Codespaces" tab.
+- Click on "New codespace" to launch a new Codespace environment.
+- Edit files directly within the Codespace and commit and push your changes once you're done.
+
+## What technologies are used for this project?
+
+This project is built with .
+
+- Vite
+- TypeScript
+- React
+- shadcn-ui
+- Tailwind CSS
+
+## How can I deploy this project?
+
+Simply open [Lovable](https://lovable.dev/projects/a9dab480-a5aa-4c82-b422-74f8444b9deb) and click on Share -> Publish.
+
+## I want to use a custom domain - is that possible?
+
+We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
